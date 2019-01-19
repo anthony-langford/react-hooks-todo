@@ -1,28 +1,29 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import styled from 'styled-components';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+import useTodoState from './components/useTodoState';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const Wrapper = styled.div`
+  font-family: sans-serif;
+  text-align: center;
+  color: cornflowerblue;
+`;
+
+export default function App() {
+  const { todos, addTodo, deleteTodo } = useTodoState([]);
+
+  return (
+    <Wrapper>
+      <h1>Todos</h1>
+      <TodoForm
+        saveTodo={todoText => {
+          const trimmedText = todoText.trim();
+
+          trimmedText.length && addTodo(trimmedText);
+        }}
+      />
+      <TodoList todos={todos} deleteTodo={deleteTodo} />
+    </Wrapper>
+  );
 }
-
-export default App;
